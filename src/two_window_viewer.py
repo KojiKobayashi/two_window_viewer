@@ -1,24 +1,40 @@
 import cv2
 import os
 import glob
-
+import numpy as np
 import Tkinter
 import tkFileDialog
 
 class TwoImages:
+    def __init__(self):
+        self.mode = 0
     def set_files(self, file1, file2):
         self.img1 = cv2.imread(file1)
         self.img2 = cv2.imread(file2)
     def show_image(self):
         concat = cv2.hconcat([self.img1, self.img2])
+        message = ""
+        print self.mode
+        if self.mode == 1:
+            message = self._are_same_images()
+        cv2.putText(concat, message, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
         cv2.imshow("compare", concat)
+    def set_identical_mode(self):
+        self.mode = 1
+    def _are_same_images(self):
+        if np.array_equal(self.img1, self.img2):
+            return "SAME"
+        else:
+            return "NOT SAME"
+    def reset_window_position(self):
+        cv2.moveWindow("compare", 0, 0)
     def __del__( self ):
         cv2.destroyAllWindows()
 
 def show_two_images(files, dir1, dir2):
     length = len(files)
     counter = 0
-
+    
     two_images = TwoImages()
     while(True):
         f = files[counter]
@@ -29,14 +45,20 @@ def show_two_images(files, dir1, dir2):
         two_images.show_image()
     
         key = cv2.waitKey(0)
+        
         if key == 27:   # esc
             break
         if key == 110:  # n
             counter += 1
         if key == 112:  # p
             counter -= 1
-        print counter
-                
+        if key == 63:   # ?
+            two_images.set_identical_mode()
+        if key == 48:   # 0
+            two_images.reset_window_position()
+
+#        print key, message
+
         if counter >= length:
             counter = 0
         if counter < 0:
