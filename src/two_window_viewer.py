@@ -12,19 +12,22 @@ class TwoImages:
         self.img1 = cv2.imread(file1)
         self.img2 = cv2.imread(file2)
         self.filename = file1.split("\\")[-1]
+        self.concat = cv2.hconcat([self.img1, self.img2])
     def show_image(self):
-        concat = cv2.hconcat([self.img1, self.img2])
         message = ""
         if self.mode == 1:
             message = self._are_same_images()
         elif self.mode == 2:
             message = self.filename
-        cv2.putText(concat, message, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
-        cv2.imshow("compare", concat)
+        cv2.putText(self.concat, message, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
+        cv2.imshow("compare", self.concat)
     def set_identical_mode(self):
         self.mode = 1
     def set_show_filename_mode(self):
         self.mode = 2
+    def save(self):
+        tmp_file = self.filename
+        cv2.imwrite(tmp_file, self.concat)
     def _are_same_images(self):
         if np.array_equal(self.img1, self.img2):
             return "SAME"
@@ -60,15 +63,17 @@ def show_two_images(files, dir1, dir2):
             two_images.set_identical_mode()
         elif key == 48:     # 0
             two_images.reset_window_position()
-        elif key == 102:     # f
+        elif key == 102:    # f
             two_images.set_show_filename_mode()
-            
-#        print key
+        elif key == 115:     #s
+            two_images.save()
 
         if counter >= length:
             counter = length - 1
         if counter < 0:
             counter = 0
+    
+#        print key
         
     cv2.destroyAllWindows()
 
