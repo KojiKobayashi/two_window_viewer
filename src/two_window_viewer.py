@@ -14,7 +14,6 @@ class TwoImages:
     def show_image(self):
         concat = cv2.hconcat([self.img1, self.img2])
         message = ""
-        print self.mode
         if self.mode == 1:
             message = self._are_same_images()
         cv2.putText(concat, message, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
@@ -45,22 +44,22 @@ def show_two_images(files, dir1, dir2):
         two_images.show_image()
     
         key = cv2.waitKey(0)
-        
-        if key == 27:   # esc
+
+        if key == 27:       # esc
             break
-        if key == 110:  # n
+        elif key == 110:    # n
             counter += 1
-        if key == 112:  # p
+        elif key == 112:    # p
             counter -= 1
-        if key == 63:   # ?
+        elif key == 63:     # ?
             two_images.set_identical_mode()
-        if key == 48:   # 0
+        elif key == 48:     # 0
             two_images.reset_window_position()
 
 #        print key, message
 
         if counter >= length:
-            counter = 0
+            counter = length - 1
         if counter < 0:
             counter = 0
         
