@@ -11,15 +11,20 @@ class TwoImages:
     def set_files(self, file1, file2):
         self.img1 = cv2.imread(file1)
         self.img2 = cv2.imread(file2)
+        self.filename = file1.split("\\")[-1]
     def show_image(self):
         concat = cv2.hconcat([self.img1, self.img2])
         message = ""
         if self.mode == 1:
             message = self._are_same_images()
+        elif self.mode == 2:
+            message = self.filename
         cv2.putText(concat, message, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
         cv2.imshow("compare", concat)
     def set_identical_mode(self):
         self.mode = 1
+    def set_show_filename_mode(self):
+        self.mode = 2
     def _are_same_images(self):
         if np.array_equal(self.img1, self.img2):
             return "SAME"
@@ -55,8 +60,10 @@ def show_two_images(files, dir1, dir2):
             two_images.set_identical_mode()
         elif key == 48:     # 0
             two_images.reset_window_position()
-
-#        print key, message
+        elif key == 102:     # f
+            two_images.set_show_filename_mode()
+            
+#        print key
 
         if counter >= length:
             counter = length - 1
