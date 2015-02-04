@@ -8,6 +8,7 @@ import tkFileDialog
 class TwoImages:
     def __init__(self):
         self.mode = 0
+        self.tmp_message = ""
         self.window_name = "compare"
     def set_files(self, file1, file2):
         self.img1 = cv2.imread(file1)
@@ -24,17 +25,21 @@ class TwoImages:
         self.mode = 2
     def save(self):
         cv2.imwrite(self.filename, self.concat)
-        cv2.putText(self.concat, "saved", (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
-        cv2.imshow(self.window_name, self.concat)
+        self.tmp_message = "saved"
+        self.once_message_flag = True
     def reset_window_position(self):
         cv2.moveWindow(self.window_name, 0, 0)
 
     def _set_message(self):
         message = ""
-        if self.mode == 1:
-            message = self._are_same_images()
-        elif self.mode == 2:
-            message = self.filename
+        if self.tmp_message == "":
+            if self.mode == 1:
+                message = self._are_same_images()
+            elif self.mode == 2:
+                message = self.filename
+        else:
+            message = self.tmp_message
+            self.tmp_message = ""
         return message
     def _are_same_images(self):
         if np.array_equal(self.img1, self.img2):
