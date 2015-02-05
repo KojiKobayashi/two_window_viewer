@@ -10,11 +10,15 @@ class TwoImages:
         self.mode = 0
         self.tmp_message = ""
         self.window_name = "compare"
+        self.align = "h" 
     def set_files(self, file1, file2):
         self.img1 = cv2.imread(file1)
         self.img2 = cv2.imread(file2)
         self.filename = file1.split("\\")[-1]
-        self.concat = cv2.hconcat([self.img1, self.img2])
+        if (self.align == "h"):
+            self.concat = cv2.hconcat([self.img1, self.img2])
+        else:
+            self.concat = cv2.vconcat([self.img1, self.img2])
     def show_image(self):
         message = self._set_message()
         cv2.putText(self.concat, message, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
@@ -29,6 +33,10 @@ class TwoImages:
         self.once_message_flag = True
     def reset_window_position(self):
         cv2.moveWindow(self.window_name, 0, 0)
+    def set_align_vertical(self):
+        self.align = "v"
+    def set_align_horizontal(self):
+        self.align = "h"
 
     def _set_message(self):
         message = ""
@@ -78,6 +86,10 @@ def show_two_images(files, dir1, dir2):
             two_images.set_show_filename_mode()
         elif key == 115:    # s
             two_images.save()
+        elif key == 118:    # v
+            two_images.set_align_vertical()
+        elif key == 104:    # h
+            two_images.set_align_horizontal()
 
         if counter >= length:
             counter = length - 1
