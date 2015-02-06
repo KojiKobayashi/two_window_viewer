@@ -10,7 +10,8 @@ class TwoImages:
         self.mode = 0
         self.tmp_message = ""
         self.window_name = "compare"
-        self.align = "h" 
+        self.align = "h"
+        self.enlarge_rate = 100
     def set_files(self, file1, file2):
         self.img1 = cv2.imread(file1)
         self.img2 = cv2.imread(file2)
@@ -22,7 +23,10 @@ class TwoImages:
     def show_image(self):
         message = self._set_message()
         cv2.putText(self.concat, message, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
-        cv2.imshow(self.window_name, self.concat)
+        width = self.concat.shape[1] * self.enlarge_rate / 100
+        height = self.concat.shape[0] * self.enlarge_rate / 100
+        disp_img = cv2.resize(self.concat, (width, height))
+        cv2.imshow(self.window_name, disp_img)
     def set_identical_mode(self):
         self.mode = 1
     def set_show_filename_mode(self):
@@ -37,6 +41,11 @@ class TwoImages:
         self.align = "v"
     def set_align_horizontal(self):
         self.align = "h"
+    def enlarge_image(self):
+        self.enlarge_rate = min(self.enlarge_rate + 10, 500)
+        print self.enlarge_rate
+    def decrease_image(self):
+        self.enlarge_rate = max(self.enlarge_rate - 10, 10)
 
     def _set_message(self):
         message = ""
@@ -74,22 +83,26 @@ def show_two_images(files, dir1, dir2):
 
         if key == 27:       # esc
             break
-        elif key == 110:    # n
+        elif key == ord('n'):
             counter += 1
-        elif key == 112:    # p
+        elif key == ord('p'):
             counter -= 1
-        elif key == 63:     # ?
+        elif key == ord('?'):
             two_images.set_identical_mode()
-        elif key == 48:     # 0
+        elif key == ord('0'):
             two_images.reset_window_position()
-        elif key == 102:    # f
+        elif key == ord('f'):
             two_images.set_show_filename_mode()
-        elif key == 115:    # s
+        elif key == ord('s'):
             two_images.save()
-        elif key == 118:    # v
+        elif key == ord('v'):
             two_images.set_align_vertical()
-        elif key == 104:    # h
+        elif key == ord('h'):
             two_images.set_align_horizontal()
+        elif key == ord('+'):
+            two_images.enlarge_image()
+        elif key == ord('-'):
+            two_images.decrease_image()
 
         if counter >= length:
             counter = length - 1
