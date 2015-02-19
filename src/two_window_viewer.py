@@ -43,7 +43,6 @@ class TwoImages:
         self.align = "h"
     def enlarge_image(self):
         self.enlarge_rate = min(self.enlarge_rate + 10, 500)
-        print self.enlarge_rate
     def decrease_image(self):
         self.enlarge_rate = max(self.enlarge_rate - 10, 10)
 
