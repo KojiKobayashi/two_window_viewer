@@ -14,6 +14,7 @@
  * 0 : reset window position
  * + : enlarge
  * - : Shrink
+ * Esc : end this program
  
 #license
 MITです。
