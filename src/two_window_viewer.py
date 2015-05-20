@@ -12,14 +12,14 @@ class TwoImages:
         self.window_name = "compare"
         self.align = "h"
         self.enlarge_rate = 100
-    def set_files(self, file1, file2):
-        self.img1 = cv2.imread(file1)
-        self.img2 = cv2.imread(file2)
-        self.filename = file1.split("\\")[-1]
-        if (self.align == "h"):
-            self.concat = cv2.hconcat([self.img1, self.img2])
+    def set_files(self, files):
+        self.imgs = [cv2.imread(f) for f in files]
+        self.filename = files[0].split("\\")[-1]
+
+        if self.align == "h":
+            self.concat = cv2.hconcat(self.imgs)
         else:
-            self.concat = cv2.vconcat([self.img1, self.img2])
+            self.concat = cv2.vconcat(self.imgs)
     def show_image(self):
         message = self._set_message()
         cv2.putText(self.concat, message, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
@@ -58,24 +58,23 @@ class TwoImages:
             self.tmp_message = ""
         return message
     def _are_same_images(self):
-        if np.array_equal(self.img1, self.img2):
-            return "SAME"
-        else:
-            return "NOT SAME"
+        for img in self.imgs:
+            if not np.array_equal(self.imgs[0],img):
+                return "NOT SAME"
+        return "SAME"
     def __del__( self ):
         cv2.destroyAllWindows()
 
-def show_two_images(files, dir1, dir2):
+def show_two_images(files, dirs):
     length = len(files)
     counter = 0
     
     two_images = TwoImages()
     while(True):
         f = files[counter]
-        file1 = dir1 + "\\" + f
-        file2 = dir2 + "\\" + f
+        filePaths = [os.path.join(dir, f) for dir in dirs]
 
-        two_images.set_files(file1, file2)
+        two_images.set_files(filePaths)
         two_images.show_image()
     
         key = cv2.waitKey(0)
@@ -112,11 +111,11 @@ def show_two_images(files, dir1, dir2):
         
     cv2.destroyAllWindows()
 
-def uniq_arrays(arr1, arr2):
+def uniq_arrays(arrays):
     ret_arr = []
-    for elem in arr1:
-        if elem in arr2:
-            ret_arr.append(elem)
+    for item in arrays[0]:
+        if all(item in arr for arr in arrays):
+            ret_arr.append(item)
     return ret_arr
             
 def get_image_files(dir):
@@ -126,24 +125,29 @@ def get_image_files(dir):
     files = [f.split("\\")[-1] for f in files]
     return files
 
-def set_two_directory():
+def set_n_directory():
     # root setting to prepend blank window
     root = Tkinter.Tk()
     root.withdraw()
-    dir1 = tkFileDialog.askdirectory()
-    dir2 = tkFileDialog.askdirectory()
+    dirs = []
+    while True:
+        tmp = tkFileDialog.askdirectory()
+        if not tmp:
+            break
+        dirs.append(tmp)
+
     root.destroy()
-    return [dir1, dir2]
+    return dirs
 
 def main_exe():
-    dirs = set_two_directory()
+    dirs = set_n_directory()
 
-    files1 = get_image_files(dirs[0])
-    files2 = get_image_files(dirs[1])
+    files_set = [get_image_files(dir) for dir in dirs]
+    files = uniq_arrays(files_set)
+    if len(files) == 0:
+        return
 
-    files = uniq_arrays(files1, files2)
-
-    show_two_images(files, dirs[0], dirs[1])
+    show_two_images(files, dirs)
 
 if __name__ == "__main__":
     main_exe()
