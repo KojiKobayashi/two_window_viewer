@@ -138,7 +138,6 @@ def get_image_files(dir):
     return files
 
 def set_n_directory():
-    return ["C:\\Users\\k.kobayashi\\Desktop\\test1","C:\\Users\\k.kobayashi\\Desktop\\test2"]
     # root setting to prepend blank window
     root = Tkinter.Tk()
     root.withdraw()
