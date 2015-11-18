@@ -130,11 +130,13 @@ def set_n_directory():
     root = Tkinter.Tk()
     root.withdraw()
     dirs = []
+    dir_opt = options = {}
     while True:
-        tmp = tkFileDialog.askdirectory()
+        tmp = tkFileDialog.askdirectory(**dir_opt)
         if not tmp:
             break
         dirs.append(tmp)
+        options['initialdir'] = tmp
 
     root.destroy()
     return dirs
