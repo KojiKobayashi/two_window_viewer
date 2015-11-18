@@ -17,9 +17,13 @@ class TwoImages:
         self.filename = files[0].split("\\")[-1]
 
         if self.align == "h":
-            self.concat = cv2.hconcat(self.imgs)
+            max_h = max([img.shape[0] for img in self.imgs])
+            show_imgs = [self._resize_h(img, max_h) for img in self.imgs]
+            self.concat = cv2.hconcat(show_imgs)
         else:
-            self.concat = cv2.vconcat(self.imgs)
+            max_w = max([img.shape[1] for img in self.imgs])
+            show_imgs = [self._resize_w(img, max_w) for img in self.imgs]
+            self.concat = cv2.vconcat(show_imgs)
     def show_image(self):
         message = self._set_message()
         width = self.concat.shape[1] * self.enlarge_rate / 100
@@ -63,6 +67,12 @@ class TwoImages:
             if not np.array_equal(self.imgs[0],img):
                 return "NOT SAME"
         return "SAME"
+    def _resize_w(self, img, w):
+        h = img.shape[0] * w / img.shape[1]
+        return cv2.resize(img, (w, h))
+    def _resize_h(self, img, h):
+        w = img.shape[1] * h / img.shape[0]
+        return cv2.resize(img, (w, h))
     def __del__( self ):
         cv2.destroyAllWindows()
 
@@ -128,6 +138,7 @@ def get_image_files(dir):
     return files
 
 def set_n_directory():
+    return ["C:\\Users\\k.kobayashi\\Desktop\\test1","C:\\Users\\k.kobayashi\\Desktop\\test2"]
     # root setting to prepend blank window
     root = Tkinter.Tk()
     root.withdraw()
