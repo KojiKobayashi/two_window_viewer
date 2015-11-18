@@ -22,10 +22,10 @@ class TwoImages:
             self.concat = cv2.vconcat(self.imgs)
     def show_image(self):
         message = self._set_message()
-        cv2.putText(self.concat, message, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
         width = self.concat.shape[1] * self.enlarge_rate / 100
         height = self.concat.shape[0] * self.enlarge_rate / 100
         disp_img = cv2.resize(self.concat, (width, height))
+        cv2.putText(disp_img, message, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
         cv2.imshow(self.window_name, disp_img)
     def set_identical_mode(self):
         self.mode = 1
@@ -74,7 +74,6 @@ def show_two_images(files, dirs):
     while(True):
         f = files[counter]
         filePaths = [os.path.join(dir, f) for dir in dirs]
-
         two_images.set_files(filePaths)
         two_images.show_image()
     
