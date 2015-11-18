@@ -13,7 +13,8 @@
  * h : horizontal align
  * 0 : reset window position
  * + : enlarge
- * - : Shrink
+ * - : shrink
+ * r : reset window message
  * Esc : end this program
  
 #license

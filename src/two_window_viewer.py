@@ -45,7 +45,8 @@ class TwoImages:
         self.enlarge_rate = min(self.enlarge_rate + 10, 500)
     def decrease_image(self):
         self.enlarge_rate = max(self.enlarge_rate - 10, 10)
-
+    def reset_window_message(self):
+    	self.mode = 0
     def _set_message(self):
         message = ""
         if self.tmp_message == "":
@@ -101,6 +102,8 @@ def show_two_images(files, dirs):
             two_images.enlarge_image()
         elif key == ord('-'):
             two_images.decrease_image()
+        elif key == ord('r'):
+            two_images.reset_window_message()
 
         if counter >= length:
             counter = length - 1
