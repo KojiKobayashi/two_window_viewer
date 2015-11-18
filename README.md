@@ -4,17 +4,17 @@
 #usage
 起動して二つのフォルダを選択します。
 以降は画面をアクティブにした状態でキーボードのみで操作します。
- * n : to next image
- * p : to previous image
- * f : display file name
+ * n : to <b>n</b>ext image
+ * p : to <b>p</b>revious image
+ * f : display <b>f</b>ile name
  * ? : compare and display same or not
- * s : save current image
- * v : vertical align
- * h : horizontal align
+ * s : <b>s</b>ave current image
+ * v : <b>v</b>ertical align
+ * h : <b>h</b>orizontal align
  * 0 : reset window position
  * + : enlarge
  * - : shrink
- * r : reset window message
+ * r : <b>r</b>eset window message
  * Esc : end this program
  
 #license
