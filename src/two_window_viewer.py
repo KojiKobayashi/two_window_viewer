@@ -13,7 +13,7 @@ class TwoImages:
         self.align = "h"
         self.enlarge_rate = 100
     def set_files(self, files):
-        self.imgs = [cv2.imread(f) for f in files]
+        self.imgs = [cv2.imread(f.encode("shift_jis")) for f in files]
         self.filename = files[0].split("\\")[-1]
 
         if self.align == "h":
@@ -145,6 +145,7 @@ def set_n_directory():
     dir_opt = options = {}
     while True:
         tmp = tkFileDialog.askdirectory(**dir_opt)
+        tmo = tmp.encode("utf-8")
         if not tmp:
             break
         dirs.append(tmp)
