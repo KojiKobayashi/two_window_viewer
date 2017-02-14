@@ -118,8 +118,10 @@ def show_two_images(files, dirs):
         elif key == ord('j'):
             if two_images.are_same_images() == "NOT SAME":
                 while(key ==ord('j')):
-                    key = cv2.waitKey(0)
-            counter += 1
+                    key = cv2.waitKey(100)
+                print key
+            else:
+                counter += 1
                     
 
         if counter >= length:
