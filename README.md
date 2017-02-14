@@ -15,6 +15,7 @@
  * + : enlarge
  * - : shrink
  * r : <b>r</b>eset window message
+ * j : <b>j</b>ump to not same image(press and hold)
  * Esc : end this program
  
 #license

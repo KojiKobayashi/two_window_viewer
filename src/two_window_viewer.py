@@ -51,6 +51,8 @@ class TwoImages:
         self.enlarge_rate = max(self.enlarge_rate - 10, 10)
     def reset_window_message(self):
     	self.mode = 0
+    def are_same_images(self):
+        return self._are_same_images()
     def _set_message(self):
         message = ""
         if self.tmp_message == "":
@@ -113,6 +115,12 @@ def show_two_images(files, dirs):
             two_images.decrease_image()
         elif key == ord('r'):
             two_images.reset_window_message()
+        elif key == ord('j'):
+            if two_images.are_same_images() == "NOT SAME":
+                while(key ==ord('j')):
+                    key = cv2.waitKey(0)
+            counter += 1
+                    
 
         if counter >= length:
             counter = length - 1
