@@ -2,8 +2,8 @@ import cv2
 import os
 import glob
 import numpy as np
-import Tkinter
-import tkFileDialog
+import tkinter
+import tkinter.filedialog
 
 class TwoImages:
     def __init__(self):
@@ -13,7 +13,7 @@ class TwoImages:
         self.align = "h"
         self.enlarge_rate = 100
     def set_files(self, files):
-        self.imgs = [cv2.imread(f.encode("shift_jis")) for f in files]
+        self.imgs = [cv2.imread(f.encode("shift_jis").decode("utf-8")) for f in files]
         self.filename = files[0].split("\\")[-1]
 
         if self.align == "h":
@@ -26,8 +26,8 @@ class TwoImages:
             self.concat = cv2.vconcat(show_imgs)
     def show_image(self):
         message = self._set_message()
-        width = self.concat.shape[1] * self.enlarge_rate / 100
-        height = self.concat.shape[0] * self.enlarge_rate / 100
+        width = self.concat.shape[1] * self.enlarge_rate // 100
+        height = self.concat.shape[0] * self.enlarge_rate // 100
         disp_img = cv2.resize(self.concat, (width, height))
         cv2.putText(disp_img, message, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 3)
         cv2.imshow(self.window_name, disp_img)
@@ -70,10 +70,10 @@ class TwoImages:
                 return "NOT SAME"
         return "SAME"
     def _resize_w(self, img, w):
-        h = img.shape[0] * w / img.shape[1]
+        h = img.shape[0] * w // img.shape[1]
         return cv2.resize(img, (w, h))
     def _resize_h(self, img, h):
-        w = img.shape[1] * h / img.shape[0]
+        w = img.shape[1] * h // img.shape[0]
         return cv2.resize(img, (w, h))
     def __del__( self ):
         cv2.destroyAllWindows()
@@ -119,7 +119,6 @@ def show_two_images(files, dirs):
             if two_images.are_same_images() == "NOT SAME":
                 while(key ==ord('j')):
                     key = cv2.waitKey(100)
-                print key
             else:
                 counter += 1
                     
@@ -149,12 +148,12 @@ def get_image_files(dir):
 
 def set_n_directory():
     # root setting to prepend blank window
-    root = Tkinter.Tk()
+    root = tkinter.Tk()
     root.withdraw()
     dirs = []
     dir_opt = options = {}
     while True:
-        tmp = tkFileDialog.askdirectory(**dir_opt)
+        tmp = tkinter.filedialog.askdirectory(**dir_opt)
         tmo = tmp.encode("utf-8")
         if not tmp:
             break
