@@ -112,7 +112,7 @@ def show_two_images(files, dirs):
 
         if key == 27:       # esc
             break
-        elif key == ord('a'):
+        elif key == ord('f'):
             counter = 0
         elif key == ord('n'):
             counter += 1
