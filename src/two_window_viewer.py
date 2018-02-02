@@ -112,6 +112,8 @@ def show_two_images(files, dirs):
 
         if key == 27:       # esc
             break
+        elif key == ord('a'):
+            counter = 0
         elif key == ord('n'):
             counter += 1
         elif key == ord('p'):
@@ -145,8 +147,6 @@ def show_two_images(files, dirs):
             counter = length - 1
         if counter < 0:
             counter = 0
-
-#        print key
 
     cv2.destroyAllWindows()
 
