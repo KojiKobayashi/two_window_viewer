@@ -4,6 +4,7 @@
 #usage
 起動して二つのフォルダを選択します。
 以降は画面をアクティブにした状態でキーボードのみで操作します。
+
  * n : to <b>n</b>ext image
  * p : to <b>p</b>revious image
  * f : display <b>f</b>ile name
@@ -12,8 +13,8 @@
  * v : <b>v</b>ertical align
  * h : <b>h</b>orizontal align
  * 0 : reset window position
- * + : enlarge
- * - : shrink
+ * \+ : enlarge
+ * \- : shrink
  * r : <b>r</b>eset window message
  * j : <b>j</b>ump to not same image(press and hold)
  * f : to <b>f</b>irst image
