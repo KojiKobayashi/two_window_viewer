@@ -7,6 +7,7 @@ import tkinter.filedialog
 
 
 class TwoImages:
+
     def __init__(self):
         self.mode = 0
         self.tmp_message = ""
@@ -15,7 +16,8 @@ class TwoImages:
         self.enlarge_rate = 100
 
     def set_files(self, files):
-        self.imgs = [cv2.imread(f.encode("shift_jis").decode("utf-8")) for f in files]
+        self.imgs = [cv2.imread(f.encode("shift_jis").decode("utf-8"))
+                     for f in files]
         self.filename = files[0].split("\\")[-1]
 
         if self.align == "h":
@@ -32,7 +34,8 @@ class TwoImages:
         width = self.concat.shape[1] * self.enlarge_rate // 100
         height = self.concat.shape[0] * self.enlarge_rate // 100
         disp_img = cv2.resize(self.concat, (width, height))
-        cv2.putText(disp_img, message, (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0 ,255), 3)
+        cv2.putText(disp_img, message, (0, 30),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 3)
         cv2.imshow(self.window_name, disp_img)
 
     def set_identical_mode(self):
@@ -197,4 +200,3 @@ def main_exe():
 
 if __name__ == "__main__":
     main_exe()
-
